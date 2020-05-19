@@ -1,7 +1,7 @@
-const genres = (connection, sequelize) => {
+const genres = (connection, Sequelize) => {
   return connection.define('genres', {
-    id: { type: sequelize.INTEGER, autoIncrement: true, primaryKey: true },
-    name: { type: sequelize.STRING },
+    id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    name: { type: Sequelize.STRING },
   }, { paranoid: true })
 }
 

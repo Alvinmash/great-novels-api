@@ -15,9 +15,8 @@ app.get('/novels', getAllNovels)
 app.get('/novels/:id', getNovelById)
 
 app.all('*', (request, response) => {
-  return response.status(404).send('sorry! novel not found')
+  return response.status(404).send('sorry! novels  not found')
 })
-
 
 app.listen(8080, () => {
   // eslint-disable-next-line no-console

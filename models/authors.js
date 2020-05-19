@@ -1,8 +1,8 @@
-const author = (connection, sequelize) => {
+const author = (connection, Sequelize) => {
   return connection.define('author', {
-    id: { type: sequelize.INTEGER, autoIncrement: true, primaryKey: true },
-    nameFirst: { type: sequelize.STRING },
-    nameLast: { type: sequelize.STRING },
+    id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    nameFirst: { type: Sequelize.STRING },
+    nameLast: { type: Sequelize.STRING },
   }, { paranoid: true })
 }
 

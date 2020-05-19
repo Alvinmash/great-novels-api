@@ -1,10 +1,10 @@
-const novel = (connection, sequelize, author) => {
+const novel = (connection, Sequelize, author) => {
   return connection.define('novels', {
-    id: { type: sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
     authorId: {
-      type: sequelize.INTEGER,
+      type: Sequelize.INTEGER,
       references: { model: author, key: 'id' },
-      title: { type: sequelize.STRING },
+      title: { type: Sequelize.STRING },
     },
     paranoid: true
   })
