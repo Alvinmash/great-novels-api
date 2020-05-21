@@ -1,7 +1,7 @@
 const models = require('../models')
 
 const getAllGenres = async (request, response) => {
-  const genres = await models.genres.findAll()
+  const genres = await models.Genres.findAll()
 
   return response.send(genres)
 }
@@ -9,11 +9,11 @@ const getAllGenres = async (request, response) => {
 const getGenreById = async (request, response) => {
   const { id } = request.params
 
-  const genre = await models.genres.findOne({
+  const genre = await models.Genres.findOne({
     where: { id },
     include: [{
-      model: models.novels,
-      include: [{ model: models.authors }]
+      model: models.Novels,
+      include: [{ model: models.Authors }]
     }]
   })
 

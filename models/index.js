@@ -1,32 +1,33 @@
 const Sequelize = require('sequelize')
-const AuthorModel = require('./authors')
-const GenresModel = require('./genres')
-const NovelModel = require('./novels')
 const allConfigs = require('../configs/sequelize')
 
-const config = allConfigs[environment]
+const AuthorsModel = require('./authors')
+const GenresModel = require('./genres')
+const NovelsModel = require('./novels')
+const NovelsGenresModel = require('./novelsGenres')
 
-const environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
+const environment = process.env.NODE_ENV || 'development'
+const {
+  username, password, database, host, dialect,
+} = allConfigs[environment]
 
-const NovelGenresModel = require('./novelGenres')
+const connection = new Sequelize(database, username, password, { host, dialect })
 
-const connection = new Sequelize(config.database, config.username, config.password, {
-  host: config.host, dialect: config.dialect,
-})
-
-const Author = AuthorModel(connection, Sequelize)
+const Authors = AuthorsModel(connection, Sequelize)
 const Genres = GenresModel(connection, Sequelize)
-const Novel = NovelModel(connection, Sequelize)
-const NovelGenres = NovelGenresModel(connection, Sequelize, Novel, Genres)
+const Novels = NovelsModel(connection, Sequelize, Authors)
+const NovelsGenres = NovelsGenresModel(connection, Sequelize, Genres, Novels)
 
-Author.hasMany(Novel)
-Novel.belongsTo(Author)
+Novels.belongsTo(Authors)
+Authors.hasMany(Novels)
 
-
-Novel.belongsToMany(Genres, { through: NovelGenres })
-Genres.belongsToMany(Novel, { through: NovelGenres })
-
+Genres.belongsToMany(Novels, { through: NovelsGenres })
+Novels.belongsToMany(Genres, { through: NovelsGenres })
 
 module.exports = {
-  Author, Genres, Novel, NovelGenres, op: Sequelize.Op
+  Authors,
+  Genres,
+  Novels,
+  NovelsGenres,
+  Sequelize,
 }
